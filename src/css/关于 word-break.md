@@ -1,0 +1,33 @@
+### word-break 指定了怎样在`单词`内断行
+
+| 值        | 描述                                                         |
+| --------- | ------------------------------------------------------------ |
+| normal    | 使用默认的断行规则                                           |
+| break-all | 对于 non-CJK (CJK 指中文/日文/韩文) 文本，可在任意字符间断行 |
+| keep-all  | CJK 文本不断行。 Non-CJK 文本表现同 normal                   |
+
+<br/>
+
+[详情参考: https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break](https://developer.mozilla.org/zh-CN/docs/Web/CSS/word-break)
+
+### 重点在`单词`, 假定用(中, 英)文代指(CJK, non-CJK)
+
+normal: 不太清楚什么叫`默认`规则, 在 chrome 下, 中文会换行, 英文不换行
+
+break-all: 无论中英文, 所有字符依次排列, 超出容器末尾处换行
+
+keep-all: 无论中英文, 连续字符均视为`单词`, 单词不会换行
+
+- 注意: 虽然是 keep-all, 但单词连接符( - )会发生换行
+
+### 总结:
+
+- 如果是英文站点, 不要用 break-all , 因为换行处会拆分英文单词, 造成阅读困难
+- 如果是全中文, 需要换行时使用 normal 或 break-all 即可
+- 如果中英文混合内容, 视具体情况来定
+
+在做导航目录时想到换行这个问题, 我想正确的做法应该是
+
+- 使用 break-all
+- 目录栏适当宽一点
+- 控制标题长度, 最多占两行, 对超长的标题做字符串截取

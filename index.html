@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+  <style>
+    html,
+    body {
+      color: #333;
+      font-size: 14px;
+      height: 100%;
+      margin: 0;
+    }
+
+    #app {
+      display: flex;
+      height: 100%;
+    }
+
+    .cate,
+    .list {
+      margin: 0;
+      padding: 0 12px;
+      cursor: pointer;
+      list-style-type: none;
+      border-right: 1px solid #f0f0f0;
+      overflow-x: hidden;
+      overflow-y: auto;
+      min-width: 240px;
+      max-width: 240px;
+      word-break: break-all;
+    }
+
+    .cate {
+      min-width: 120px;
+      max-width: 120px;
+    }
+
+    .cate .item,
+    .list .item {
+      padding: 6px 0;
+      color: #3d7e9a;
+    }
+
+    .cate .item {
+      font-weight: bold;
+    }
+
+    .cate .item:hover,
+    .list .item:hover {
+      text-decoration: underline;
+    }
+
+    .view {
+      flex: auto;
+      border: 0px;
+      overflow: auto;
+      padding: 0 12px;
+    }
+  </style>
+  <div id="app"></div>
+
+  <script>
+    const netJs = [
+      'https://unpkg.com/react@16/umd/react.production.min.js',
+      'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js',
+      'https://unpkg.com/babel-standalone@6/babel.min.js',
+      'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
+    ]
+    const localJs = [
+      '/lib/react.production.min.js',
+      '/lib/react-dom.production.min.js',
+      '/lib/babel.min.js',
+      '/lib/marked.min.js',
+    ]
+    // 无网络时本地使用
+    ;(window.location.protocol === 'http:' ? localJs : netJs).forEach((m) => {
+      document.write(`<script src="${m}" ><\/script>`)
+    })
+  </script>
+
+  <script type="text/babel">
+    const domContainer = document.querySelector('#app')
+    const useState = React.useState
+    const useEffect = React.useEffect
+
+    const Cate = (props) => {
+      return (
+        <ul className="cate">
+          {props.cate.map((m) => (
+            <li className="item">{m}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    const List = (props) => {
+      const { list } = props
+      return (
+        <ul className="list">
+          {list.map((m) => (
+            <li
+              className="item"
+              title={m.name}
+              key={m.path}
+              onClick={() => props.srcChange(m.path)}
+            >
+              {m.name}
+            </li>
+          ))}
+        </ul>
+      )
+    }
+
+    const ViewMD = (props) => {
+      const [md, setMd] = React.useState(null)
+
+      useEffect(() => {
+        if (props.src)
+          fetch(props.src)
+            .then((res) => res.text())
+            .then((m) => setMd(marked(m)))
+      }, [props.src])
+
+      return (
+        <div
+          className="view"
+          dangerouslySetInnerHTML={{
+            __html: md,
+          }}
+        ></div>
+      )
+    }
+
+    const View = (props) => {
+      return (
+        <iframe className="view" allowfullscreen allowvr onmousewheel="" src={props.src}></iframe>
+      )
+    }
+
+    const App = (props) => {
+      const [src, setSrc] = useState(null)
+      const [cate, setCate] = useState({})
+      useEffect(() => {
+        fetch('cate.json')
+          .then((res) => res.json())
+          .then(setCate)
+      }, [])
+
+      return (
+        <React.Fragment>
+          <Cate cate={cate.cate || []} />
+          <List list={cate.list || []} srcChange={setSrc} />
+          <ViewMD src={src} />
+        </React.Fragment>
+      )
+    }
+    //<View src={src} />
+
+    ReactDOM.render(<App />, document.querySelector('#app'))
+  </script>
+</html>
