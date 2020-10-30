@@ -1,0 +1,59 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  font-size: 14px;
+  color: #333;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  background: #fdfdfd;
+}
+
+#app {
+  display: flex;
+  height: 100%;
+}
+
+.cate,
+.list {
+  margin: 0;
+  padding: 0 16px;
+  cursor: pointer;
+  list-style-type: none;
+  overflow-x: hidden;
+  overflow-y: auto;
+  word-break: break-all;
+}
+
+.list {
+  background-color: #f7f7f7;
+  min-width: 200px;
+  max-width: 200px;
+}
+
+.cate {
+  background-color: #e7e7e7;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+.cate .item,
+.list .item {
+  padding: 6px 0;
+  color: #3d7e9a;
+}
+
+.cate .item {
+  font-weight: bold;
+}
+
+.cate .item:hover,
+.list .item:hover {
+  text-decoration: underline;
+}
+
+.view {
+  flex: auto;
+  border: 0px;
+  overflow: auto;
+  padding: 0 12px;
+}

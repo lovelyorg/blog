@@ -1,78 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <style>
-    html,
-    body {
-      color: #333;
-      font-size: 14px;
-      height: 100%;
-      margin: 0;
-    }
+  <link rel="stylesheet" href="/index.css" />
+  <link rel="stylesheet" href="/marked.ex.css" />
 
-    #app {
-      display: flex;
-      height: 100%;
-    }
-
-    .cate,
-    .list {
-      margin: 0;
-      padding: 0 12px;
-      cursor: pointer;
-      list-style-type: none;
-      border-right: 1px solid #f0f0f0;
-      overflow-x: hidden;
-      overflow-y: auto;
-      min-width: 240px;
-      max-width: 240px;
-      word-break: break-all;
-    }
-
-    .cate {
-      min-width: 120px;
-      max-width: 120px;
-    }
-
-    .cate .item,
-    .list .item {
-      padding: 6px 0;
-      color: #3d7e9a;
-    }
-
-    .cate .item {
-      font-weight: bold;
-    }
-
-    .cate .item:hover,
-    .list .item:hover {
-      text-decoration: underline;
-    }
-
-    .view {
-      flex: auto;
-      border: 0px;
-      overflow: auto;
-      padding: 0 12px;
-    }
-  </style>
   <div id="app"></div>
 
   <script>
+    // 无网络时使用本地资源
+    const netCss = ['//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.1/build/styles/tomorrow.min.css']
+    const localCss = ['/lib/styles/tomorrow.css']
     const netJs = [
       'https://unpkg.com/react@16/umd/react.production.min.js',
       'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js',
       'https://unpkg.com/babel-standalone@6/babel.min.js',
       'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
+      '//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.1/build/highlight.min.js',
     ]
     const localJs = [
       '/lib/react.production.min.js',
       '/lib/react-dom.production.min.js',
       '/lib/babel.min.js',
       '/lib/marked.min.js',
+      '/lib/highlight.min.js',
     ]
-    // 无网络时本地使用
-    ;(window.location.protocol === 'http:' ? localJs : netJs).forEach((m) => {
+    const isLocal = window.location.protocol === 'http:'
+    const staticResource = isLocal
+      ? {
+          css: localCss,
+          js: localJs,
+        }
+      : {
+          css: netCss,
+          js: netJs,
+        }
+    staticResource.css.forEach((m) => {
+      document.write(`<link rel="stylesheet" href="${m}">`)
+    })
+    staticResource.js.forEach((m) => {
       document.write(`<script src="${m}" ><\/script>`)
+    })
+  </script>
+
+  <script>
+    // 不能写到上个 script 标签里, 猜测原理为:一个标签里的代码会先执行完, 然后下载js资源, 完了结束script标签继续往后走
+    marked.setOptions({
+      highlight: function (code, language) {
+        const validLanguage = hljs.getLanguage(language) ? language : 'plaintext'
+        return hljs.highlight(validLanguage, code).value
+      },
     })
   </script>
 
@@ -96,12 +71,7 @@
       return (
         <ul className="list">
           {list.map((m) => (
-            <li
-              className="item"
-              title={m.name}
-              key={m.path}
-              onClick={() => props.srcChange(m.path)}
-            >
+            <li className="item" title={m.name} key={m.path} onClick={() => props.srcChange(m.path)}>
               {m.name}
             </li>
           ))}
@@ -130,9 +100,7 @@
     }
 
     const View = (props) => {
-      return (
-        <iframe className="view" allowfullscreen allowvr onmousewheel="" src={props.src}></iframe>
-      )
+      return <iframe className="view" allowfullscreen allowvr onmousewheel="" src={props.src}></iframe>
     }
 
     const App = (props) => {

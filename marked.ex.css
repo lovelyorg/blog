@@ -1,0 +1,56 @@
+pre {
+  padding: 0.5em 1em;
+  background-color: #f7f7f7;
+}
+
+code {
+  color: #d7ba7d;
+}
+
+pre code {
+  color: #666;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #3e9cd6;
+  margin-block-end: 0.5rem;
+}
+
+table {
+  border-collapse: collapse;
+  margin-left: 14px;
+}
+
+thead {
+  text-align: left;
+}
+
+thead :first-child {
+  border-bottom: 1px solid #333;
+}
+
+tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+tbody :last-child {
+  border-bottom: unset;
+}
+
+th,
+td {
+  padding: 4px 8px;
+}
+
+a {
+  color: #3e9cd6;
+}
+
+ul {
+  margin-block-start: 0.5rem;
+}
