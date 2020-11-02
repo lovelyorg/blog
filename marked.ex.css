@@ -1,6 +1,7 @@
 pre {
   padding: 0.5em 1em;
   background-color: #f7f7f7;
+  margin: 0 0 1.275em 0;
 }
 
 code {
@@ -19,6 +20,8 @@ h5,
 h6 {
   color: #3e9cd6;
   margin-block-end: 0.5rem;
+  margin-top: 1.275em;
+  margin-bottom: 0.85em;
 }
 
 table {

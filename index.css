@@ -57,3 +57,7 @@ body {
   overflow: auto;
   padding: 0 12px;
 }
+
+.view > :first-child {
+  margin-top: 0.875em;
+}
