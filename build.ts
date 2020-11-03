@@ -1,14 +1,14 @@
 import { walk } from "https://deno.land/std@0.74.0/fs/mod.ts";
 
 async function allFilesNames(root: string) {
-  let data = [];
+  const data = [];
   for await (const entry of walk(root)) {
     data.push(entry.path);
   }
   return data;
 }
 
-async function writeJson(path: string, data: object): Promise<string> {
+async function writeJson(path: string, data: unknown): Promise<string> {
   try {
     Deno.writeTextFileSync(path, JSON.stringify(data));
     return "Written to " + path + " SUCCESS";
