@@ -10,7 +10,7 @@ code {
 
 pre code {
   color: #666;
-  font-family: Consolas,"Liberation Mono",Menlo,Courier,monospace;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 h1,
@@ -57,4 +57,9 @@ a {
 
 ul {
   margin-block-start: 0.5rem;
+}
+
+p {
+  margin-block-start: 1.275em;
+  margin-block-end: 0.85em;
 }
