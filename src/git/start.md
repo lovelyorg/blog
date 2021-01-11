@@ -44,6 +44,23 @@ git checkout .              所有
 暂存区 -> HEAD
 git commit -m <remark>
 
+撤销 commit
+git reset --soft HEAD^
+
+撤销 n 次 commit
+git reset --soft HEAD~n
+
+撤销 commit 并撤销 git add
+git reset HEAD^
+等同于
+git reset --mixed HEAD^
+
+撤销 commit 并删除工作区改动
+git reset --hard HEAD^  !!! 危险
+
+修改 commit 注释
+git commit --amend
+
 推送到远程仓库
 git push <remote> <branch>
 

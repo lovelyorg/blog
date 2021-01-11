@@ -10,15 +10,15 @@
     const netCss = ['//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.1/build/styles/tomorrow.min.css']
     const localCss = ['/lib/styles/tomorrow.css']
     const netJs = [
-      'https://unpkg.com/react@16/umd/react.production.min.js',
-      'https://unpkg.com/react-dom@16/umd/react-dom.production.min.js',
-      'https://unpkg.com/babel-standalone@6/babel.min.js',
-      'https://cdn.jsdelivr.net/npm/marked/marked.min.js',
+      '//unpkg.com/react@17.0.1/umd/react.production.min.js',
+      '//unpkg.com/react-dom@17.0.1/umd/react-dom.production.min.js',
+      '//unpkg.com/babel-standalone@6/babel.min.js',
+      '//cdn.jsdelivr.net/npm/marked/marked.min.js',
       '//cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.3.1/build/highlight.min.js',
     ]
     const localJs = [
-      '/lib/react.production.min.js',
-      '/lib/react-dom.production.min.js',
+      '/lib/react.development.js',
+      '/lib/react-dom.development.js',
       '/lib/babel.min.js',
       '/lib/marked.min.js',
       '/lib/highlight.min.js',
@@ -52,28 +52,26 @@
   </script>
 
   <script type="text/babel">
-    const domContainer = document.querySelector('#app')
     const useState = React.useState
     const useEffect = React.useEffect
 
-    const Cate = (props) => {
-      return (
-        <ul className="cate">
-          {props.cate.map((m) => (
-            <li className="item">{m}</li>
-          ))}
-        </ul>
-      )
-    }
-
     const List = (props) => {
-      const { list } = props
+      const { cates } = props
+      console.log(cates)
+      const articleName = (path) => path.replace(/^src\\[^\\]+\\/, '').replace(/.md$/, '')
       return (
-        <ul className="list">
-          {list.map((m) => (
-            <li className="item" title={m.name} key={m.path} onClick={() => props.srcChange(m.path)}>
-              {m.name}
-            </li>
+        <ul className="list-container">
+          {cates.map((cate) => (
+            <ul key={cate.cate} className="list-cate-block">
+              <li className="list-cate-block-cate">{cate.cate}</li>
+              <ul className="list">
+                {cate.list.map((m) => (
+                  <li className="item" key={m} onClick={() => props.srcChange(m)}>
+                    {articleName(m)}
+                  </li>
+                ))}
+              </ul>
+            </ul>
           ))}
         </ul>
       )
@@ -105,17 +103,16 @@
 
     const App = (props) => {
       const [src, setSrc] = useState(null)
-      const [cate, setCate] = useState({})
+      const [cates, setCates] = useState([])
       useEffect(() => {
-        fetch('cate.json')
+        fetch('cates.json')
           .then((res) => res.json())
-          .then(setCate)
+          .then(setCates)
       }, [])
-
+      console.log(cates)
       return (
         <React.Fragment>
-          <Cate cate={cate.cate || []} />
-          <List list={cate.list || []} srcChange={setSrc} />
+          <List cates={cates} srcChange={setSrc} />
           <ViewMD src={src} />
         </React.Fragment>
       )

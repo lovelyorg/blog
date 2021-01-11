@@ -13,40 +13,35 @@ body {
   height: 100%;
 }
 
-.cate,
 .list {
   margin: 0;
-  padding: 0 16px;
+  padding-left: 16px;
   cursor: pointer;
-  list-style-type: none;
   overflow-x: hidden;
-  overflow-y: auto;
   word-break: break-all;
 }
 
-.list {
+.list-container {
   background-color: #f7f7f7;
-  min-width: 200px;
-  max-width: 200px;
+  margin: 0;
+  overflow-y: auto;
+  min-width: 248px;
+  max-width: 248px;
 }
 
-.cate {
-  background-color: #e7e7e7;
-  min-width: 100px;
-  max-width: 100px;
+.list-cate-block {
+  padding: 0 16px;
 }
 
-.cate .item,
+.list-cate-block-cate {
+  font-size: 1.1rem;
+}
+
 .list .item {
-  padding: 6px 0;
+  margin: 12px 0;
   color: #3d7e9a;
 }
 
-.cate .item {
-  font-weight: bold;
-}
-
-.cate .item:hover,
 .list .item:hover {
   text-decoration: underline;
 }
@@ -60,4 +55,9 @@ body {
 
 .view > :first-child {
   margin-top: 0.875em;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
 }

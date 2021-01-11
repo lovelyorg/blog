@@ -18,19 +18,18 @@ async function writeJson(path: string, data: unknown): Promise<string> {
 }
 
 async function build() {
-  const paths = await allFilesNames("src");
-  const cate = paths.filter((m) => /^src\\[^\\]+$/.test(m)).map((m) =>
-    /[^\\]+$/.exec(m)?.toString()
-  );
-  const list = paths.filter((m) => /^src\\[^\\]+\\[^\\]+$/.test(m)).map(
-    (m) => ({
-      path: m,
-      name: m.replace(/^src\\[^\\]+\\/, ""),
-    }),
-  );
-  // console.log(cate, list);
+  const paths = await allFilesNames("src"); //
+  const files = paths.filter((m) => /^src\\[^\\]+\\[^\\]+$/.test(m));
+  const cates = new Map<string, string[]>();
+  files.forEach((m) => {
+    const cate = /^src\\[^\\]+/.exec(m)?.toString().replace(/^src\\/, "") || "";
+    if (!cates.has(cate)) cates.set(cate, []);
+    cates.get(cate)?.push(m);
+  });
+  const result = Array.from(cates).map((m) => ({ cate: m[0], list: m[1] }));
 
-  console.log(await writeJson("./cate.json", { cate, list }));
+  // console.log(paths, cates, result);
+  console.log(await writeJson("./cates.json", result));
 }
 
 build();
